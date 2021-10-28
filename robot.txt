@@ -1,0 +1,103 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+int resetOrientation(int x);
+
+int main()
+{
+	setlocale(LC_ALL, "rus");
+	string way = "SSSSSRSSSSSRSSSSSRSSSSRSSSSRSSSRSSSRSSRSSRSRSRS";
+	//проверка на лимит команд S
+	int volS = count(way.begin(), way.end(), 'S');
+	if (volS > 50) {
+		cout << "Число шагов должно быть не более 50" << endl;
+		return 0;
+	}
+	//проверка на общее число команд
+	if (way.length() < 1 || way.length() > 200) {
+		cout << "Число команд должно быть от 1 до 200" << endl;
+		return 0;
+	}
+
+	int x = 0, y = 0; //начальные координаты
+
+	string history = "S" + to_string(x) + "." + to_string(y); //история всех шагов
+	string historyLastCoord; //координаты последнего шага
+	string historyCash; //история всех шагов за исключением последнего шага (требуется для функции count_of_substrings)
+
+	int orientation = 0; //переменная для определения направления, где 0 - шаг вправо, 1 - шаг вверх, 2 - шаг влево, 3 - шаг вниз
+	int countL = 0, countR = 0; //счетчики поворотов
+	int step = 0; //счетчик шагов
+	bool flag = false;
+
+	for (int i = 0; i < way.length(); i++) {
+		if (way[i] == 'S') {
+			if (orientation == 0) {
+				x++;
+				step++;
+			}
+			if (orientation == 1) {
+				y++;
+				step++;
+			}
+			if (orientation == 2) {
+				x--;
+				step++;
+			}
+			if (orientation == 3) {
+				y--;
+				step++;
+			}
+			historyLastCoord = "S" + to_string(x) + "." + to_string(y); //записываем координаты последнего шага
+			history += "S" + to_string(x) + "." + to_string(y); //добавляет координаты посленего шага в историю
+			historyCash = history;
+			historyCash.erase(history.length() - 3, 3); //история всех шагов за исключением последнего шага (требуется для функции count_of_substrings)
+			if (step > 1 && (historyCash.find(historyLastCoord)) != string::npos) { //проверка на выполнение хотя бы 1 шага и поиск последних координат в истории
+				flag = true;
+				break;
+			}
+		}
+		if (way[i] == 'L') { //условие для поворота налево
+			orientation++;
+			countL++;
+			countR--;
+		}
+		if (way[i] == 'R') { //условие для поворота направо
+			orientation--;
+			countR++;
+			countL--;
+		}
+		orientation = resetOrientation(orientation); //сброс ориентации при необходимости
+	}
+	if (flag)
+		cout << "Будет сделано " << step << " шагов" << endl;
+	else
+		cout << "-1" << endl;
+	return 0;
+}
+
+int resetOrientation(int x) //сброс ориентации при необходимости
+{
+	if ((x == 4) || (x == -4)) {
+		x = 0;
+	}
+	if ((x == 5) || (x == -3)) {
+		x = 1;
+	}
+	if ((x == 6) || (x == -2)) {
+		x = 2;
+	}
+	if ((x == 7) || (x == -1)) {
+		x = 3;
+	}
+	return x;
+}
+
+//примеры:
+//SSLSLSLSSRSRS = 5
+//LSSSS = -1
+//SRSLSSLSSSLSLSSLS = 11
+//SSSSSSLSSSSSLSSSLSSSSLSSS = 21
+//SSLSSSSLSLSSRSRSSSRSSSRSSSSSSRSSSRS = 26
+//SSSSSRSSSSSRSSSSSRSSSSRSSSSRSSSRSSSRSSRSSRSRSRS = 36
