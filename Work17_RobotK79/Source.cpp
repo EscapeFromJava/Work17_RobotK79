@@ -1,4 +1,4 @@
-#include <iostream>
+п»ї#include <iostream>
 #include <string>
 
 using namespace std;
@@ -9,25 +9,25 @@ int main()
 {
 	setlocale(LC_ALL, "rus");
 	string way = "SSSSSSLSSSSSLSSSLSSSSLSSS";
-	//проверка на лимит команд S
+	//РїСЂРѕРІРµСЂРєР° РЅР° Р»РёРјРёС‚ РєРѕРјР°РЅРґ S
 	int volS = count(way.begin(), way.end(), 'S'); 
 	if (volS > 50) {
-		cout << "Число шагов должно быть не более 50" << endl;
+		cout << "Р§РёСЃР»Рѕ С€Р°РіРѕРІ РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ РЅРµ Р±РѕР»РµРµ 50" << endl;
 		return 0;
 	}
-	//проверка на общее число команд
+	//РїСЂРѕРІРµСЂРєР° РЅР° РѕР±С‰РµРµ С‡РёСЃР»Рѕ РєРѕРјР°РЅРґ
 	if (way.length() < 1 || way.length() > 200) {
-		cout << "Число команд должно быть от 1 до 200" << endl;
+		cout << "Р§РёСЃР»Рѕ РєРѕРјР°РЅРґ РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ РѕС‚ 1 РґРѕ 200" << endl;
 		return 0;
 	}
-	string historyMove = "S0.0"; //история всех шагов
-	string historyLastMove; //координаты последнего шага
-	string historyCash; //история всех шагов за исключением последнего шага (требуется для функции count_of_substrings)
+	string historyMove = "S0.0"; //РёСЃС‚РѕСЂРёСЏ РІСЃРµС… С€Р°РіРѕРІ
+	string historyLastMove; //РєРѕРѕСЂРґРёРЅР°С‚С‹ РїРѕСЃР»РµРґРЅРµРіРѕ С€Р°РіР°
+	string historyCash; //РёСЃС‚РѕСЂРёСЏ РІСЃРµС… С€Р°РіРѕРІ Р·Р° РёСЃРєР»СЋС‡РµРЅРёРµРј РїРѕСЃР»РµРґРЅРµРіРѕ С€Р°РіР° (С‚СЂРµР±СѓРµС‚СЃСЏ РґР»СЏ С„СѓРЅРєС†РёРё count_of_substrings)
 
-	int x = 0, y = 0; //начальные координаты
-	int orientation = 0; //переменная для определения направления, где 0 - шаг вправо, 1 - шаг вверх, 2 - шаг влево, 3 - шаг вниз
-	int countL = 0, countR = 0; //счетчики поворотов
-	int step = 0; //счетчик шагов
+	int x = 0, y = 0; //РЅР°С‡Р°Р»СЊРЅС‹Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹
+	int orientation = 0; //РїРµСЂРµРјРµРЅРЅР°СЏ РґР»СЏ РѕРїСЂРµРґРµР»РµРЅРёСЏ РЅР°РїСЂР°РІР»РµРЅРёСЏ, РіРґРµ 0 - С€Р°Рі РІРїСЂР°РІРѕ, 1 - С€Р°Рі РІРІРµСЂС…, 2 - С€Р°Рі РІР»РµРІРѕ, 3 - С€Р°Рі РІРЅРёР·
+	int countL = 0, countR = 0; //СЃС‡РµС‚С‡РёРєРё РїРѕРІРѕСЂРѕС‚РѕРІ
+	int step = 0; //СЃС‡РµС‚С‡РёРє С€Р°РіРѕРІ
 	bool flag = false;
 	for (int i = 0; i < way.length(); i++) {
 		if (way[i] == 'S') {
@@ -48,37 +48,37 @@ int main()
 				y--;
 				step++;
 			}
-			historyLastMove = "S" + to_string(x) + "." + to_string(y); //записываем координаты последнего шага
-			historyMove += "S" + to_string(x) + "." + to_string(y); //добавляет координаты посленего шага в историю
+			historyLastMove = "S" + to_string(x) + "." + to_string(y); //Р·Р°РїРёСЃС‹РІР°РµРј РєРѕРѕСЂРґРёРЅР°С‚С‹ РїРѕСЃР»РµРґРЅРµРіРѕ С€Р°РіР°
+			historyMove += "S" + to_string(x) + "." + to_string(y); //РґРѕР±Р°РІР»СЏРµС‚ РєРѕРѕСЂРґРёРЅР°С‚С‹ РїРѕСЃР»РµРЅРµРіРѕ С€Р°РіР° РІ РёСЃС‚РѕСЂРёСЋ
 			historyCash = historyMove;
-			historyCash.erase(historyMove.length() - 3, 3); //история всех шагов за исключением последнего шага (требуется для функции count_of_substrings)
-			if (step > 1 && (count_of_substrings(historyCash, historyLastMove) > 0)) { //проверка на выполнение хотя бы 1 шага и поиск последних координат в истории
-				if (countL >= 3 || countR >= 3) { //проверка на выполнение подряд 3 поворотов в одну сторону
+			historyCash.erase(historyMove.length() - 3, 3); //РёСЃС‚РѕСЂРёСЏ РІСЃРµС… С€Р°РіРѕРІ Р·Р° РёСЃРєР»СЋС‡РµРЅРёРµРј РїРѕСЃР»РµРґРЅРµРіРѕ С€Р°РіР° (С‚СЂРµР±СѓРµС‚СЃСЏ РґР»СЏ С„СѓРЅРєС†РёРё count_of_substrings)
+			if (step > 1 && (count_of_substrings(historyCash, historyLastMove) > 0)) { //РїСЂРѕРІРµСЂРєР° РЅР° РІС‹РїРѕР»РЅРµРЅРёРµ С…РѕС‚СЏ Р±С‹ 1 С€Р°РіР° Рё РїРѕРёСЃРє РїРѕСЃР»РµРґРЅРёС… РєРѕРѕСЂРґРёРЅР°С‚ РІ РёСЃС‚РѕСЂРёРё
+				if (countL >= 3 || countR >= 3) { //РїСЂРѕРІРµСЂРєР° РЅР° РІС‹РїРѕР»РЅРµРЅРёРµ РїРѕРґСЂСЏРґ 3 РїРѕРІРѕСЂРѕС‚РѕРІ РІ РѕРґРЅСѓ СЃС‚РѕСЂРѕРЅСѓ
 					flag = true;
 					break;
 				}
 			}
 		}
-		if (way[i] == 'L') { //условие для поворота налево
+		if (way[i] == 'L') { //СѓСЃР»РѕРІРёРµ РґР»СЏ РїРѕРІРѕСЂРѕС‚Р° РЅР°Р»РµРІРѕ
 			orientation++;
 			countL++;
 			countR--;
 		}
-		if (way[i] == 'R') { //условие для поворота направо
+		if (way[i] == 'R') { //СѓСЃР»РѕРІРёРµ РґР»СЏ РїРѕРІРѕСЂРѕС‚Р° РЅР°РїСЂР°РІРѕ
 			orientation--;
 			countR++;
 			countL--;
 		}
-		orientation = resetOrientation(orientation); //сброс ориентации при необходимости
+		orientation = resetOrientation(orientation); //СЃР±СЂРѕСЃ РѕСЂРёРµРЅС‚Р°С†РёРё РїСЂРё РЅРµРѕР±С…РѕРґРёРјРѕСЃС‚Рё
 	}
 	if (flag)
-		cout << "Будет сделано " << step << " шагов" << endl;
+		cout << "Р‘СѓРґРµС‚ СЃРґРµР»Р°РЅРѕ " << step << " С€Р°РіРѕРІ" << endl;
 	else
 		cout << "-1" << endl;
 	return 0;
 }
 
-int count_of_substrings(string src, string sub) { //поиск последних координат в истории
+int count_of_substrings(string src, string sub) { //РїРѕРёСЃРє РїРѕСЃР»РµРґРЅРёС… РєРѕРѕСЂРґРёРЅР°С‚ РІ РёСЃС‚РѕСЂРёРё
 	int start = 0;
 	int count = 0;
 	int pos = 0;
@@ -95,7 +95,7 @@ int count_of_substrings(string src, string sub) { //поиск последних координат в 
 	return count;
 }
 
-int resetOrientation(int x) //сброс ориентации при необходимости
+int resetOrientation(int x) //СЃР±СЂРѕСЃ РѕСЂРёРµРЅС‚Р°С†РёРё РїСЂРё РЅРµРѕР±С…РѕРґРёРјРѕСЃС‚Рё
 {
 	if ((x == 4) || (x == -4)) {
 		x = 0;
@@ -112,7 +112,7 @@ int resetOrientation(int x) //сброс ориентации при необходимости
 	return x;
 }
 
-//примеры:
+//РїСЂРёРјРµСЂС‹:
 //SSLSLSLSSRSRS = 5
 //LSSSS = -1
 //SRSLSSLSSSLSLSSLS = 11
